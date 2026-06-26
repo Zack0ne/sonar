@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sonar — Network Scanner</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="toolbar">
+    <div class="row">
+      <label class="lbl">IP Range:</label>
+      <input id="start" class="inp ip" type="text" placeholder="192.168.1.1 or 192.168.1.0/24"
+             title="Start IP, or a CIDR like 192.168.1.0/24" value="192.168.1.1" />
+      <span class="to">to</span>
+      <input id="end" class="inp ip" type="text" placeholder="192.168.1.254" value="192.168.1.254" />
+      <button id="presetLocal" class="ghost" title="Detect and fill your local /24 subnet">My /24</button>
+      <button id="startBtn" class="primary">▶ Start</button>
+      <button id="stopBtn" class="danger" disabled>■ Stop</button>
+    </div>
+    <div class="row">
+      <label class="lbl">Ports:</label>
+      <input id="ports" class="inp ports" type="text" value="21,22,23,25,53,80,110,143,443,3389,8080" />
+      <label class="lbl small">Threads:</label>
+      <input id="threads" class="inp num" type="number" min="1" max="1000" value="120" />
+      <label class="lbl small">Timeout:</label>
+      <input id="timeout" class="inp num" type="number" min="100" max="10000" step="100" value="1000" />
+      <span class="unit">ms</span>
+    </div>
+    <div class="row filter-row">
+      <label class="lbl small">Show:</label>
+      <select id="statusFilter" class="inp sel" title="Filter rows by host state">
+        <option value="all">All hosts</option>
+        <option value="alive">Alive (responding)</option>
+        <option value="ports">With open ports</option>
+        <option value="dead">Dead</option>
+      </select>
+      <input id="search" class="inp search" type="text" placeholder="Filter by IP, hostname or web server…" />
+      <label class="lbl small">Open port:</label>
+      <input id="portFilter" class="inp num" type="number" min="1" max="65535" placeholder="any" title="Show only hosts with this port open" />
+      <button id="clearFilters" class="ghost" title="Reset all filters">Clear</button>
+      <span class="spacer"></span>
+      <button id="exportCsv" class="ghost" title="Export visible rows to CSV">Export CSV</button>
+      <button id="exportJson" class="ghost" title="Export visible rows to JSON">Export JSON</button>
+    </div>
+  </header>
+
+  <div class="table-wrap">
+    <table id="results">
+      <thead>
+        <tr>
+          <th class="col-st sortable" data-key="status" title="Sort by status"></th>
+          <th class="col-ip sortable" data-key="ip">IP</th>
+          <th class="col-ping sortable" data-key="ping">Ping</th>
+          <th class="col-host sortable" data-key="host">Hostname</th>
+          <th class="col-ports sortable" data-key="ports">Ports</th>
+          <th class="col-web sortable" data-key="web">Web detect</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <footer class="statusbar">
+    <span id="status">Ready</span>
+    <span class="sep"></span>
+    <span id="counts">Display: All</span>
+    <span class="sep"></span>
+    <span id="threadStatus">Threads: 0</span>
+    <div class="progress"><div id="progressBar"></div></div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

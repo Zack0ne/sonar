@@ -1,0 +1,25 @@
+# Rust / Tauri build output
+/src-tauri/target/
+/src-tauri/gen/schemas/
+
+# Node
+/node_modules/
+
+# Build artifacts / distributables
+/dist/
+*.deb
+*.AppImage
+*.rpm
+*.dmg
+*.app
+*.msi
+
+# Generated icon source (regenerate with gen-icon.py)
+/icon-source.png
+
+# OS / editor cruft
+.DS_Store
+*.log
+Thumbs.db
+.idea/
+.vscode/

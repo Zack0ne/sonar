@@ -1,0 +1,239 @@
+/* ---- Theme tokens -------------------------------------------------------- */
+:root {
+  color-scheme: light dark; /* let native controls + scrollbars follow the OS */
+
+  --bg: #f4f4f4;
+  --panel: #ececec;
+  --border: #c9c9c9;
+  --cell-border: #ececec;
+  --text: #222;
+  --muted: #6f6f6f;       /* secondary labels / [n/a] */
+  --faint: #8a8a8a;       /* dead-host rows */
+  --table-bg: #ffffff;
+  --row-alt: #f6f6f6;
+  --row-hover: #eaf3ff;
+  --header: #e6e6e6;
+
+  --input-bg: #ffffff;
+  --input-text: #222;
+  --btn-bg: #fafafa;
+  --btn-hover: #efefef;
+  --btn-text: #222;
+  --btn-ghost-text: #555;
+
+  --green: #5cb85c;
+  --blue: #4a90e2;
+  --red: #d9534f;
+  --accent: #e8743b;
+  --primary: #e8743b;
+  --primary-text: #ffffff;
+  --primary-border: #c95f2b;
+  --progress-track: #dddddd;
+  --dot-stroke: rgba(0, 0, 0, 0.18);
+  --dot-gloss: rgba(255, 255, 255, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1f22;
+    --panel: #26282c;
+    --border: #3a3d42;
+    --cell-border: #2c2f33;
+    --text: #e6e6e6;
+    --muted: #9aa0a6;       /* readable on dark rows */
+    --faint: #7a7f85;       /* dead-host rows, still legible */
+    --table-bg: #1b1c1f;
+    --row-alt: #232529;
+    --row-hover: #2b3a4d;
+    --header: #2d3035;
+
+    --input-bg: #2a2c31;
+    --input-text: #e6e6e6;
+    --btn-bg: #34373d;
+    --btn-hover: #3f434a;
+    --btn-text: #e6e6e6;
+    --btn-ghost-text: #b6bbc2;
+
+    --green: #4caf50;
+    --blue: #5a9bf0;
+    --red: #e2625d;
+    --accent: #ef8a55;
+    --primary: #e8743b;
+    --primary-text: #ffffff;
+    --primary-border: #b9531f;
+    --progress-track: #34373d;
+    --dot-stroke: rgba(0, 0, 0, 0.45);
+    --dot-gloss: rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* ---- Layout -------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: -apple-system, "Segoe UI", "Ubuntu", sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+body { display: flex; flex-direction: column; height: 100vh; }
+
+.toolbar {
+  padding: 8px 10px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row { display: flex; align-items: center; gap: 8px; }
+
+.lbl { font-weight: 600; white-space: nowrap; color: var(--text); }
+.lbl.small { font-weight: 500; color: var(--muted); }
+.to { color: var(--muted); }
+.unit { color: var(--muted); margin-left: -4px; }
+
+.inp {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 13px;
+  background: var(--input-bg);
+  color: var(--input-text);
+  -webkit-user-select: text;
+  user-select: text;
+}
+.inp:focus { outline: none; border-color: var(--accent); }
+.inp.ip { width: 140px; }
+.inp.ports { width: 320px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.inp.num { width: 64px; }
+.inp.search { flex: 1; min-width: 160px; max-width: 360px; }
+.inp.sel { padding: 5px 6px; cursor: pointer; }
+
+.filter-row {
+  padding-top: 6px;
+  margin-top: 2px;
+  border-top: 1px dashed var(--border);
+}
+.spacer { flex: 1 1 auto; }
+
+button {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+}
+button:hover:not(:disabled) { background: var(--btn-hover); }
+button:disabled { opacity: 0.5; cursor: default; }
+
+button.primary { background: var(--primary); border-color: var(--primary-border); color: var(--primary-text); }
+button.primary:hover:not(:disabled) { filter: brightness(1.07); }
+button.danger { background: var(--btn-bg); color: var(--red); border-color: var(--red); }
+button.danger:hover:not(:disabled) { background: var(--btn-hover); }
+button.ghost { padding: 6px 10px; font-weight: 500; color: var(--btn-ghost-text); }
+
+/* ---- Results table ------------------------------------------------------- */
+.table-wrap { flex: 1; overflow: auto; background: var(--table-bg); }
+
+table { width: 100%; border-collapse: collapse; }
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--header);
+  color: var(--text);
+  text-align: left;
+  font-weight: 600;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  z-index: 2;
+  white-space: nowrap;
+}
+
+thead th.sortable { cursor: pointer; user-select: none; }
+thead th.sortable:hover { background: var(--row-hover); }
+thead th.sort-asc::after { content: " ▲"; font-size: 9px; opacity: 0.75; }
+thead th.sort-desc::after { content: " ▼"; font-size: 9px; opacity: 0.75; }
+
+.col-st { width: 26px; }
+.col-ip { width: 150px; }
+.col-ping { width: 90px; }
+.col-host { width: 220px; }
+.col-ports { width: 200px; }
+
+tbody td {
+  padding: 5px 10px;
+  color: var(--text);
+  border-bottom: 1px solid var(--cell-border);
+  border-right: 1px solid var(--cell-border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+tbody tr:nth-child(even) { background: var(--row-alt); }
+tbody tr:hover { background: var(--row-hover); }
+tbody tr.dead td { color: var(--faint); }
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  vertical-align: middle;
+  box-shadow: inset 0 0 0 1px var(--dot-stroke), inset 1px 1px 2px var(--dot-gloss);
+}
+.dot.green { background: var(--green); }
+.dot.blue { background: var(--blue); }
+.dot.red { background: var(--red); }
+
+.muted { color: var(--muted); }
+.ports-cell { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+/* ---- Status bar ---------------------------------------------------------- */
+.statusbar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 10px;
+  height: 28px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}
+.statusbar .sep {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+  margin: 0 12px;
+}
+.progress {
+  margin-left: auto;
+  width: 200px;
+  height: 12px;
+  background: var(--progress-track);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: var(--green);
+  transition: width 0.15s ease;
+}

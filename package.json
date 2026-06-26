@@ -1,0 +1,18 @@
+{
+  "name": "sonar",
+  "version": "1.0.0",
+  "description": "Sonar — a desktop network / IP range scanner, inspired by Angry IP Scanner",
+  "private": true,
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "build:macos": "./build.sh macos",
+    "build:linux": "./build.sh linux",
+    "build:windows": "./build.sh windows",
+    "build:all": "./build.sh all"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.2"
+  }
+}
